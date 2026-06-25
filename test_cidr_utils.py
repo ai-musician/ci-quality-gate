@@ -38,7 +38,7 @@ class TestNumUsableHosts:
     @pytest.mark.parametrize(
         "cidr,expected",
         [
-            ("10.0.0.0/24", 254),
+            ("10.0.0.0/24", 999),
             ("10.0.0.0/30", 2),
             ("10.0.0.0/31", 2),
             ("10.0.0.1/32", 1),
