@@ -1,0 +1,42 @@
+# GitLab CI/CD pipeline — the same checks as .github/workflows/ci.yml,
+# expressed in GitLab's syntax. Runs on every push / merge request.
+#
+# GitLab groups jobs into ordered "stages"; jobs in the same stage run in
+# parallel, and a later stage only starts if the previous one passed.
+
+stages:
+  - lint
+  - test
+  - infra
+
+# Lint the Python with ruff.
+ruff:
+  stage: lint
+  image: python:3.12-slim
+  script:
+    - pip install -r requirements.txt
+    - ruff check .
+
+# Run the test suite against multiple Python versions in parallel —
+# GitLab's `parallel: matrix` is the equivalent of GitHub's strategy matrix.
+pytest:
+  stage: test
+  image: python:${PY_VERSION}-slim
+  parallel:
+    matrix:
+      - PY_VERSION: ["3.11", "3.12"]
+  script:
+    - pip install -r requirements.txt
+    - pytest -v
+
+# Validate the infrastructure-as-code (no cloud credentials needed).
+terraform-validate:
+  stage: infra
+  image:
+    name: hashicorp/terraform:1.15
+    entrypoint: [""]   # override the image's `terraform` entrypoint so `script` runs in a shell
+  script:
+    - cd terraform
+    - terraform fmt -check
+    - terraform init -backend=false
+    - terraform validate
