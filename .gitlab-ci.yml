@@ -4,6 +4,13 @@
 # GitLab groups jobs into ordered "stages"; jobs in the same stage run in
 # parallel, and a later stage only starts if the previous one passed.
 
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  key: pip-$CI_JOB_IMAGE
+  paths:
+    - .cache/pip
 stages:
   - lint
   - test
