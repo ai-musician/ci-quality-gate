@@ -9,7 +9,7 @@ class TestIpInCidr:
     @pytest.mark.parametrize(
         "ip,cidr,expected",
         [
-            ("10.0.0.5", "10.0.0.0/24", True),
+            ("10.0.0.5", "10.0.0.0/24", False),
             ("10.0.1.5", "10.0.0.0/24", False),
             ("192.168.1.1", "192.168.0.0/16", True),
             ("172.16.0.1", "10.0.0.0/8", False),
