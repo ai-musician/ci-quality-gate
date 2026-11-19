@@ -27,7 +27,7 @@ pytest:
       - PY_VERSION: ["3.11", "3.12"]
   script:
     - pip install -r requirements.txt
-    - pytest -v
+    - pytest -v --junitxml=report.xml
   artifacts:
     when: always            # keep the report even when tests fail: that's when you need it
     reports:
