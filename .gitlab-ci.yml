@@ -28,6 +28,10 @@ pytest:
   script:
     - pip install -r requirements.txt
     - pytest -v
+  artifacts:
+    when: always            # keep the report even when tests fail: that's when you need it
+    reports:
+      junit: report.xml
 
 # Validate the infrastructure-as-code (no cloud credentials needed).
 terraform-validate:
