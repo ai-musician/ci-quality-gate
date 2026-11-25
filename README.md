@@ -1,7 +1,7 @@
 # ci-quality-gate
 
 A CI quality gate built twice: as a **GitLab CI** pipeline and as a **GitHub Actions** workflow, running the same
-checks on a small Python library. Every push runs lint, the tests on two Python versions and the Terraform checks;
+checks on a small Python library. Every push runs lint, the tests on several Python versions and the Terraform checks;
 any failure turns the pipeline red.
 
 ## The GitLab pipeline (`.gitlab-ci.yml`)
@@ -32,7 +32,7 @@ Python versions), all passed.
 |---|---|---|
 | File | `.gitlab-ci.yml` | `.github/workflows/ci.yml` |
 | Order | stages: lint → test → infra | two jobs in parallel: `test` (lint + tests), `terraform` |
-| Python versions | `parallel: matrix` | `strategy: matrix` |
+| Python versions | 3.11, 3.12 with `parallel: matrix` | 3.11, 3.12, 3.13 with `strategy: matrix` |
 | Runs in | a container per job (`image:`) | a VM per job (`runs-on: ubuntu-latest`) |
 | Test results | JUnit report in the Tests tab | job log |
 | Dependency cache | `cache:` | none yet |
