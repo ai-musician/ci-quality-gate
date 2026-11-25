@@ -1,4 +1,4 @@
-# cicd-demo
+# cicd-quality-gate
 
 A tiny Python project demonstrating a **CI/CD pipeline with GitHub Actions**.
 
